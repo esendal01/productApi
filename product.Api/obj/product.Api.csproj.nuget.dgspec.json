@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lenovo\\productApi\\product.api\\product.Api.csproj": {}
+    "C:\\Users\\Lenovo\\productApi\\product.Api\\product.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lenovo\\productApi\\product.api\\product.Api.csproj": {
+    "C:\\Users\\Lenovo\\productApi\\product.Api\\product.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\productApi\\product.api\\product.Api.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\productApi\\product.Api\\product.Api.csproj",
         "projectName": "product.Api",
-        "projectPath": "C:\\Users\\Lenovo\\productApi\\product.api\\product.Api.csproj",
+        "projectPath": "C:\\Users\\Lenovo\\productApi\\product.Api\\product.Api.csproj",
         "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\productApi\\product.api\\obj\\",
+        "outputPath": "C:\\Users\\Lenovo\\productApi\\product.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",

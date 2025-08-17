@@ -6,14 +6,10 @@ namespace product.Api.Application.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IProductRepository _repository;
+        private readonly IProductRepository _repo;
+        public ProductService(IProductRepository repo) => _repo = repo;
 
-        public ProductService(IProductRepository repository)
-        {
-            _repository = repository;
-        }
-
-        public async Task<ProductDto> CreateAsync(CreateProductDto dto)
+        public async Task<ProductReadDto> CreateAsync(ProductCreateDto dto)
         {
             var entity = new ProductEntity
             {
@@ -21,63 +17,45 @@ namespace product.Api.Application.Services
                 Price = dto.Price,
                 Description = dto.Description
             };
-
-            var created = await _repository.AddAsync(entity);
-
-            return new ProductDto
-            {
-                Id = created.Id,
-                Name = created.Name,
-                Price = created.Price,
-                Description = created.Description
-            };
+            await _repo.AddAsync(entity);
+            return new ProductReadDto(entity.Id, entity.Name, entity.Price, entity.Description, entity.CreatedAt);
         }
 
-        public async Task<ProductDto?> GetByIdAsync(int id)
+        public async Task<ProductReadDto?> UpdateAsync(int id, ProductUpdateDto dto)
         {
-            var entity = await _repository.GetByIdAsync(id);
-            if (entity == null) return null;
-
-            return new ProductDto
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                Price = entity.Price,
-                Description = entity.Description
-            };
-        }
-
-        public async Task<List<ProductDto>> GetAllAsync()
-        {
-            var list = await _repository.GetAllAsync();
-            return list.Select(e => new ProductDto
-            {
-                Id = e.Id,
-                Name = e.Name,
-                Price = e.Price,
-                Description = e.Description
-            }).ToList();
-        }
-
-        public async Task UpdateAsync(UpdateProductDto dto)
-        {
-            var entity = await _repository.GetByIdAsync(dto.Id);
-            if (entity == null) return;
+            var entity = await _repo.GetByIdAsync(id);
+            if (entity is null) return null;
 
             entity.Name = dto.Name;
             entity.Price = dto.Price;
             entity.Description = dto.Description;
+            await _repo.UpdateAsync(entity);
 
-            await _repository.UpdateAsync(entity);
+            return new ProductReadDto(entity.Id, entity.Name, entity.Price, entity.Description, entity.CreatedAt);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var entity = await _repository.GetByIdAsync(id);
-            if (entity != null)
-            {
-                await _repository.DeleteAsync(entity);
-            }
+            var entity = await _repo.GetByIdAsync(id);
+            if (entity is null) return false;
+
+            await _repo.DeleteAsync(entity);
+            return true;
+        }
+
+        public async Task<List<ProductReadDto>> GetAllAsync()
+        {
+            var items = await _repo.GetAllAsync();
+            return items.Select(p =>
+                new ProductReadDto(p.Id, p.Name, p.Price, p.Description, p.CreatedAt)
+            ).ToList();
+        }
+
+        public async Task<ProductReadDto?> GetByIdAsync(int id)
+        {
+            var p = await _repo.GetByIdAsync(id);
+            return p is null ? null :
+                new ProductReadDto(p.Id, p.Name, p.Price, p.Description, p.CreatedAt);
         }
     }
 }

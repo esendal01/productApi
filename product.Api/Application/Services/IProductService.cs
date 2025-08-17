@@ -4,10 +4,10 @@ namespace product.Api.Application.Services
 {
     public interface IProductService
     {
-        Task<ProductDto> CreateAsync(CreateProductDto dto);
-        Task<ProductDto?> GetByIdAsync(int id);
-        Task<List<ProductDto>> GetAllAsync();
-        Task UpdateAsync(UpdateProductDto dto);
-        Task DeleteAsync(int id);
+        Task<ProductReadDto>  CreateAsync(ProductCreateDto dto);
+        Task<ProductReadDto?> UpdateAsync(int id, ProductUpdateDto dto); // 2 parametre
+        Task<List<ProductReadDto>> GetAllAsync();
+        Task<ProductReadDto?> GetByIdAsync(int id);
+        Task<bool> DeleteAsync(int id); // bool döner
     }
 }
